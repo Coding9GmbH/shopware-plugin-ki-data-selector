@@ -1,0 +1,156 @@
+{% block search_optimizer_redirects %}
+<sw-page class="search-optimizer-redirects">
+    {% block search_optimizer_redirects_header %}
+    <template #smart-bar-header>
+        <h2>{{ $tc('search-optimizer.redirects.title') }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_redirects_actions %}
+    <template #smart-bar-actions>
+        <sw-button variant="primary" @click="onClickNew">
+            {{ $tc('search-optimizer.redirects.create') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_redirects_content %}
+    <template #content>
+        <sw-entity-listing
+            v-if="items"
+            :items="items"
+            :repository="repository"
+            :showSelection="false"
+            :columns="columns"
+            :fullPage="true"
+            :sortBy="sortBy"
+            :sortDirection="sortDirection"
+            :isLoading="isLoading"
+            :allowInlineEdit="true"
+            :allowColumnEdit="true"
+            @inline-edit-save="onInlineEditSave"
+            @column-sort="onSortColumn">
+            
+            <template #column-targetType="{ item }">
+                {{ $tc('search-optimizer.redirects.types.' + item.targetType) }}
+            </template>
+            
+            <template #column-active="{ item }">
+                <sw-icon v-if="item.active" name="default-basic-checkmark-line" color="#37D046"></sw-icon>
+                <sw-icon v-else name="default-basic-x-line" color="#DE294C"></sw-icon>
+            </template>
+
+            <template #actions="{ item }">
+                <sw-context-menu-item @click="onClickEdit(item)">
+                    {{ $tc('search-optimizer.redirects.edit') }}
+                </sw-context-menu-item>
+                
+                <sw-context-menu-item variant="danger" @click="onClickDelete(item.id)">
+                    {{ $tc('search-optimizer.redirects.delete') }}
+                </sw-context-menu-item>
+            </template>
+        </sw-entity-listing>
+
+        {% block search_optimizer_redirects_modal %}
+        <sw-modal
+            v-if="showModal"
+            :title="currentItem.id ? $tc('search-optimizer.redirects.editTitle') : $tc('search-optimizer.redirects.createTitle')"
+            @modal-close="onCloseModal">
+            
+            <sw-container columns="1fr" gap="20px">
+                <sw-text-field
+                    v-model="currentItem.searchTerm"
+                    :label="$tc('search-optimizer.redirects.searchTerm')"
+                    :placeholder="$tc('search-optimizer.redirects.searchTermPlaceholder')"
+                    required>
+                </sw-text-field>
+                
+                <sw-single-select
+                    v-model="currentItem.targetType"
+                    :label="$tc('search-optimizer.redirects.targetType')"
+                    :options="[
+                        { value: 'url', label: $tc('search-optimizer.redirects.types.url') },
+                        { value: 'category', label: $tc('search-optimizer.redirects.types.category') },
+                        { value: 'product', label: $tc('search-optimizer.redirects.types.product') },
+                        { value: 'landingPage', label: $tc('search-optimizer.redirects.types.landingPage') }
+                    ]"
+                    required>
+                </sw-single-select>
+                
+                <sw-text-field
+                    v-if="currentItem.targetType === 'url'"
+                    v-model="currentItem.targetUrl"
+                    :label="$tc('search-optimizer.redirects.targetUrl')"
+                    :placeholder="$tc('search-optimizer.redirects.targetUrlPlaceholder')"
+                    required>
+                </sw-text-field>
+                
+                <sw-entity-single-select
+                    v-if="currentItem.targetType === 'category'"
+                    v-model="currentItem.targetEntityId"
+                    entity="category"
+                    :label="$tc('search-optimizer.redirects.targetCategory')"
+                    @select-change="onSelectCategory"
+                    required>
+                </sw-entity-single-select>
+                
+                <sw-entity-single-select
+                    v-if="currentItem.targetType === 'product'"
+                    v-model="currentItem.targetEntityId"
+                    entity="product"
+                    :label="$tc('search-optimizer.redirects.targetProduct')"
+                    @select-change="onSelectProduct"
+                    required>
+                </sw-entity-single-select>
+                
+                <sw-entity-single-select
+                    v-if="currentItem.targetType === 'landingPage'"
+                    v-model="currentItem.targetEntityId"
+                    entity="landing_page"
+                    :label="$tc('search-optimizer.redirects.targetLandingPage')"
+                    @select-change="onSelectLandingPage"
+                    required>
+                </sw-entity-single-select>
+                
+                <sw-number-field
+                    v-model="currentItem.priority"
+                    :label="$tc('search-optimizer.redirects.priority')"
+                    :placeholder="$tc('search-optimizer.redirects.priorityPlaceholder')"
+                    :min="0"
+                    :max="999">
+                </sw-number-field>
+                
+                <sw-entity-single-select
+                    v-model="currentItem.languageId"
+                    entity="language"
+                    :label="$tc('search-optimizer.redirects.language')"
+                    :placeholder="$tc('search-optimizer.redirects.languagePlaceholder')">
+                </sw-entity-single-select>
+                
+                <sw-entity-single-select
+                    v-model="currentItem.salesChannelId"
+                    entity="sales_channel"
+                    :label="$tc('search-optimizer.redirects.salesChannel')"
+                    :placeholder="$tc('search-optimizer.redirects.salesChannelPlaceholder')">
+                </sw-entity-single-select>
+                
+                <sw-switch-field
+                    v-model="currentItem.active"
+                    :label="$tc('search-optimizer.redirects.active')">
+                </sw-switch-field>
+            </sw-container>
+            
+            <template #modal-footer>
+                <sw-button @click="onCloseModal" size="small">
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+                <sw-button @click="onSaveModal" variant="primary" size="small">
+                    {{ $tc('global.default.save') }}
+                </sw-button>
+            </template>
+        </sw-modal>
+        {% endblock %}
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

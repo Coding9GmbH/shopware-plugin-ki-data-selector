@@ -1,0 +1,22 @@
+{
+    "name": "swag/product-set-manager",
+    "description": "Plugin for managing product sets with dynamic components",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "ProductSetManager\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "ProductSetManager\\ProductSetManager",
+        "label": {
+            "de-DE": "Produkt Set Manager",
+            "en-GB": "Product Set Manager"
+        },
+        "description": {
+            "de-DE": "Verwaltet Produkt-Sets mit dynamischen Bestandteilen",
+            "en-GB": "Manages product sets with dynamic components"
+        }
+    }
+}

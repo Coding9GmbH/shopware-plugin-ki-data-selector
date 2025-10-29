@@ -1,0 +1,22 @@
+.search-optimizer-dashboard {
+    &__stat {
+        text-align: center;
+        padding: 20px;
+
+        &-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #52667A;
+            margin-bottom: 8px;
+        }
+
+        &-label {
+            font-size: 0.875rem;
+            color: #758CA3;
+        }
+    }
+
+    .sw-data-grid {
+        margin-bottom: 20px;
+    }
+}

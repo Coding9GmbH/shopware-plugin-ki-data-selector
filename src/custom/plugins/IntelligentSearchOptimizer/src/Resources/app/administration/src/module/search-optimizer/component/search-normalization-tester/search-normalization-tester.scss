@@ -1,0 +1,69 @@
+.search-normalization-tester {
+    &__mappings {
+        margin: 15px 0;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 4px;
+
+        &-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #52667A;
+        }
+    }
+
+    &__mapping-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .sw-label {
+            font-family: monospace;
+            font-size: 12px;
+        }
+    }
+
+    &__results {
+        margin-top: 20px;
+    }
+
+    &__info {
+        margin-bottom: 15px;
+        font-weight: 500;
+        color: #52667A;
+    }
+
+    &__variation {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        code {
+            flex: 1;
+            padding: 4px 8px;
+            background: #fff;
+            border: 1px solid #e3e3e3;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    }
+
+    &__example {
+        margin-top: 20px;
+
+        ul {
+            margin: 10px 0 0 20px;
+            
+            li {
+                font-family: monospace;
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

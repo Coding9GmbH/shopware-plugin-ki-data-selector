@@ -1,0 +1,108 @@
+{% block search_optimizer_synonyms %}
+<sw-page class="search-optimizer-synonyms">
+    {% block search_optimizer_synonyms_header %}
+    <template #smart-bar-header>
+        <h2>{{ $tc('search-optimizer.synonyms.title') }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_synonyms_actions %}
+    <template #smart-bar-actions>
+        <sw-button variant="primary" @click="onClickNew">
+            {{ $tc('search-optimizer.synonyms.create') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_synonyms_content %}
+    <template #content>
+        <sw-entity-listing
+            v-if="items"
+            :items="items"
+            :repository="repository"
+            :showSelection="false"
+            :columns="columns"
+            :fullPage="true"
+            :sortBy="sortBy"
+            :sortDirection="sortDirection"
+            :isLoading="isLoading"
+            :allowInlineEdit="true"
+            :allowColumnEdit="true"
+            @inline-edit-save="onInlineEditSave"
+            @column-sort="onSortColumn">
+            
+            <template #column-active="{ item }">
+                <sw-icon v-if="item.active" name="default-basic-checkmark-line" color="#37D046"></sw-icon>
+                <sw-icon v-else name="default-basic-x-line" color="#DE294C"></sw-icon>
+            </template>
+
+            <template #actions="{ item }">
+                <sw-context-menu-item @click="onClickEdit(item)">
+                    {{ $tc('search-optimizer.synonyms.edit') }}
+                </sw-context-menu-item>
+                
+                <sw-context-menu-item variant="danger" @click="onClickDelete(item.id)">
+                    {{ $tc('search-optimizer.synonyms.delete') }}
+                </sw-context-menu-item>
+            </template>
+        </sw-entity-listing>
+
+        {% block search_optimizer_synonyms_modal %}
+        <sw-modal
+            v-if="showModal"
+            :title="currentItem.id ? $tc('search-optimizer.synonyms.editTitle') : $tc('search-optimizer.synonyms.createTitle')"
+            @modal-close="onCloseModal">
+            
+            <sw-container columns="1fr" gap="20px">
+                <sw-text-field
+                    v-model="currentItem.keyword"
+                    :label="$tc('search-optimizer.synonyms.keyword')"
+                    :placeholder="$tc('search-optimizer.synonyms.keywordPlaceholder')"
+                    required>
+                </sw-text-field>
+                
+                <search-normalization-tester
+                    :search-term="currentItem.keyword">
+                </search-normalization-tester>
+                
+                <sw-text-field
+                    v-model="currentItem.synonym"
+                    :label="$tc('search-optimizer.synonyms.synonym')"
+                    :placeholder="$tc('search-optimizer.synonyms.synonymPlaceholder')"
+                    required>
+                </sw-text-field>
+                
+                <sw-entity-single-select
+                    v-model="currentItem.languageId"
+                    entity="language"
+                    :label="$tc('search-optimizer.synonyms.language')"
+                    :placeholder="$tc('search-optimizer.synonyms.languagePlaceholder')">
+                </sw-entity-single-select>
+                
+                <sw-entity-single-select
+                    v-model="currentItem.salesChannelId"
+                    entity="sales_channel"
+                    :label="$tc('search-optimizer.synonyms.salesChannel')"
+                    :placeholder="$tc('search-optimizer.synonyms.salesChannelPlaceholder')">
+                </sw-entity-single-select>
+                
+                <sw-switch-field
+                    v-model="currentItem.active"
+                    :label="$tc('search-optimizer.synonyms.active')">
+                </sw-switch-field>
+            </sw-container>
+            
+            <template #modal-footer>
+                <sw-button @click="onCloseModal" size="small">
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+                <sw-button @click="onSaveModal" variant="primary" size="small">
+                    {{ $tc('global.default.save') }}
+                </sw-button>
+            </template>
+        </sw-modal>
+        {% endblock %}
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

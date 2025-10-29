@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Basic configuration</title>
+        <title lang="de-DE">Grundeinstellungen</title>
+
+        <input-field type="text">
+            <name>apiUrl</name>
+            <label>API URL</label>
+            <label lang="de-DE">API URL</label>
+            <helpText>URL of the external API to fetch set data</helpText>
+            <helpText lang="de-DE">URL der externen API zum Abrufen der Set-Daten</helpText>
+            <defaultValue>http://localhost/api/product-set.php</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableLogging</name>
+            <label>Enable logging</label>
+            <label lang="de-DE">Logging aktivieren</label>
+            <helpText>Enable detailed logging for debugging</helpText>
+            <helpText lang="de-DE">Detailliertes Logging für Debugging aktivieren</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+</config>

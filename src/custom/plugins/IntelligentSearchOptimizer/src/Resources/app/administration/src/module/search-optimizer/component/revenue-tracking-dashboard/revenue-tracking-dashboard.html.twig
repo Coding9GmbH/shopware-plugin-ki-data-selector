@@ -1,0 +1,189 @@
+{% block revenue_tracking_dashboard %}
+<sw-card :title="$tc('search-optimizer.revenue.title')" :isLoading="isLoading">
+    <sw-container columns="1fr 1fr" gap="30px">
+        
+        <!-- Key Metrics -->
+        <sw-card-section>
+            <sw-container columns="1fr 1fr" gap="15px">
+                <sw-card variant="info">
+                    <sw-card-section>
+                        <h2 class="sw-text-center">{{ formatCurrency(totalRevenue) }}</h2>
+                        <p class="sw-text-center sw-text-color-secondary">
+                            {{ $tc('search-optimizer.revenue.totalRevenue') }}
+                        </p>
+                    </sw-card-section>
+                </sw-card>
+                
+                <sw-card variant="success">
+                    <sw-card-section>
+                        <h2 class="sw-text-center">{{ formatCurrency(avgRevenuePerSearch) }}</h2>
+                        <p class="sw-text-center sw-text-color-secondary">
+                            {{ $tc('search-optimizer.revenue.avgRevenuePerSearch') }}
+                        </p>
+                    </sw-card-section>
+                </sw-card>
+            </sw-container>
+        </sw-card-section>
+        
+        <!-- Conversion Metrics -->
+        <sw-card-section>
+            <sw-container columns="1fr 1fr" gap="15px">
+                <sw-card>
+                    <sw-card-section>
+                        <h2 class="sw-text-center">{{ avgConversionRate }}%</h2>
+                        <p class="sw-text-center sw-text-color-secondary">
+                            {{ $tc('search-optimizer.revenue.avgConversionRate') }}
+                        </p>
+                    </sw-card-section>
+                </sw-card>
+                
+                <sw-card>
+                    <sw-card-section>
+                        <h2 class="sw-text-center">{{ avgConversionTime }}</h2>
+                        <p class="sw-text-center sw-text-color-secondary">
+                            {{ $tc('search-optimizer.revenue.avgConversionTime') }}
+                        </p>
+                    </sw-card-section>
+                </sw-card>
+            </sw-container>
+        </sw-card-section>
+        
+    </sw-container>
+    
+    <!-- Top Revenue Generating Search Terms -->
+    <sw-card-section divider="top">
+        <h3>{{ $tc('search-optimizer.revenue.topSearchTerms') }}</h3>
+        
+        <sw-data-grid
+            v-if="topRevenueTerms.length > 0"
+            :dataSource="topRevenueTerms"
+            :columns="revenueColumns"
+            :showSelection="false"
+            :showActions="true">
+            
+            <template #column-search_term="{ item }">
+                <strong>{{ item.search_term }}</strong>
+            </template>
+            
+            <template #column-total_revenue="{ item }">
+                <sw-label variant="success" size="default">
+                    {{ formatCurrency(item.total_revenue) }}
+                </sw-label>
+            </template>
+            
+            <template #column-revenue_per_search="{ item }">
+                {{ formatCurrency(item.revenue_per_search) }}
+            </template>
+            
+            <template #column-conversion_rate="{ item }">
+                <sw-progress-bar 
+                    :value="item.conversion_rate" 
+                    :label="`${item.conversion_rate}%`"
+                    :variant="getConversionRateVariant(item.conversion_rate)" />
+            </template>
+            
+            <template #actions="{ item }">
+                <sw-context-button>
+                    <sw-context-menu-item @click="showDetails(item)">
+                        {{ $tc('search-optimizer.revenue.viewDetails') }}
+                    </sw-context-menu-item>
+                    <sw-context-menu-item @click="exportData(item)">
+                        {{ $tc('search-optimizer.revenue.export') }}
+                    </sw-context-menu-item>
+                </sw-context-button>
+            </template>
+        </sw-data-grid>
+        
+        <sw-empty-state 
+            v-else
+            :title="$tc('search-optimizer.revenue.noData')"
+            icon="regular-shopping-cart">
+            {{ $tc('search-optimizer.revenue.noDataDescription') }}
+        </sw-empty-state>
+    </sw-card-section>
+    
+    <!-- Search Intent Analysis -->
+    <sw-card-section divider="top">
+        <h3>{{ $tc('search-optimizer.revenue.searchIntentAnalysis') }}</h3>
+        
+        <sw-container columns="repeat(3, 1fr)" gap="20px">
+            <sw-card v-for="intent in intentAnalysis" :key="intent.type">
+                <sw-card-section>
+                    <h4>{{ getIntentLabel(intent.type) }}</h4>
+                    <p class="sw-text-large">{{ formatCurrency(intent.revenue) }}</p>
+                    <p class="sw-text-color-secondary">
+                        {{ intent.search_count }} {{ $tc('search-optimizer.revenue.searches') }}
+                    </p>
+                    <sw-progress-bar 
+                        :value="intent.revenue_share" 
+                        :label="`${intent.revenue_share}%`"
+                        class="sw-mt-2" />
+                </sw-card-section>
+            </sw-card>
+        </sw-container>
+    </sw-card-section>
+    
+    <!-- Filters -->
+    <template #grid-actions>
+        <sw-date-range-filter
+            :value="dateRange"
+            @input="onDateRangeChange"
+            :label="$tc('search-optimizer.revenue.dateRange')">
+        </sw-date-range-filter>
+        
+        <sw-single-select
+            :value="selectedSalesChannel"
+            @input="onSalesChannelChange"
+            :options="salesChannels"
+            :label="$tc('search-optimizer.revenue.salesChannel')"
+            :placeholder="$tc('search-optimizer.revenue.allSalesChannels')">
+        </sw-single-select>
+    </template>
+    
+    <!-- Details Modal -->
+    <sw-modal
+        v-if="showDetailsModal"
+        :title="detailsTitle"
+        @modal-close="showDetailsModal = false"
+        variant="large">
+        
+        <sw-container columns="1fr" gap="20px">
+            <!-- Revenue Timeline Chart -->
+            <sw-chart-card :title="$tc('search-optimizer.revenue.revenueTimeline')">
+                <sw-chart
+                    :options="revenueChartOptions"
+                    :datasets="revenueChartData"
+                    type="line">
+                </sw-chart>
+            </sw-chart-card>
+            
+            <!-- Order Details -->
+            <sw-data-grid
+                :dataSource="selectedTermOrders"
+                :columns="orderColumns"
+                :showSelection="false">
+                
+                <template #column-order_number="{ item }">
+                    <router-link :to="{ name: 'sw.order.detail', params: { id: item.order_id } }">
+                        {{ item.order_number }}
+                    </router-link>
+                </template>
+                
+                <template #column-order_amount="{ item }">
+                    {{ formatCurrency(item.order_amount) }}
+                </template>
+                
+                <template #column-conversion_time="{ item }">
+                    {{ formatTime(item.search_to_order_time) }}
+                </template>
+            </sw-data-grid>
+        </sw-container>
+        
+        <template #modal-footer>
+            <sw-button @click="showDetailsModal = false">
+                {{ $tc('global.default.close') }}
+            </sw-button>
+        </template>
+    </sw-modal>
+</sw-card>
+{% endblock %}

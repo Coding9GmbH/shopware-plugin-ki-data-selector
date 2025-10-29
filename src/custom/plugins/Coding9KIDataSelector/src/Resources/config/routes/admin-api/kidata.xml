@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing
+        https://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <!-- Query Endpoint -->
+    <route id="api.action.kidata.query" path="/api/_action/kidata/query" methods="POST">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::query</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+
+    <!-- Export Endpoint -->
+    <route id="api.action.kidata.export" path="/api/_action/kidata/export" methods="POST">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::export</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+
+    <!-- Save Query Endpoint -->
+    <route id="api.action.kidata.save" path="/api/_action/kidata/save" methods="POST">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::saveQuery</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+
+    <!-- Get Saved Queries Endpoint -->
+    <route id="api.action.kidata.saved" path="/api/_action/kidata/saved" methods="GET">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::getSavedQueries</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+
+    <!-- Get Single Saved Query Endpoint -->
+    <route id="api.action.kidata.saved.detail" path="/api/_action/kidata/saved/{id}" methods="GET">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::getSavedQuery</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+
+    <!-- Delete Saved Query Endpoint -->
+    <route id="api.action.kidata.saved.delete" path="/api/_action/kidata/saved/{id}" methods="DELETE">
+        <default key="_controller">Coding9\KIDataSelector\Core\Api\Controller\KiDataController::deleteSavedQuery</default>
+        <default key="_routeScope"><list><string>api</string></list></default>
+        <default key="auth_required"><bool>true</bool></default>
+        <default key="auth_enabled"><bool>true</bool></default>
+    </route>
+</routes>

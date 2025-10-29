@@ -1,0 +1,18 @@
+.spell-check-dashboard {
+    &__dictionary-search {
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    .sw-progress-bar {
+        max-width: 120px;
+    }
+
+    .sw-data-grid {
+        margin-top: 20px;
+    }
+
+    .sw-button-group {
+        margin-top: 10px;
+    }
+}

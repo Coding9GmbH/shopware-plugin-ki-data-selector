@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>KI Data Selector Settings</title>
+        <title lang="de-DE">KI Data Selector Einstellungen</title>
+
+        <input-field type="text">
+            <name>apiKey</name>
+            <label>OpenAI API Key</label>
+            <label lang="de-DE">OpenAI API-Schlüssel</label>
+            <helpText>Your OpenAI API key for ChatGPT access</helpText>
+            <helpText lang="de-DE">Ihr OpenAI API-Schlüssel für ChatGPT-Zugriff</helpText>
+            <required>true</required>
+            <copyable>true</copyable>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>model</name>
+            <label>OpenAI Model</label>
+            <label lang="de-DE">OpenAI Modell</label>
+            <helpText>Select the ChatGPT model to use for SQL generation</helpText>
+            <helpText lang="de-DE">Wählen Sie das ChatGPT-Modell für die SQL-Generierung</helpText>
+            <defaultValue>gpt-4o-mini</defaultValue>
+            <options>
+                <option>
+                    <id>gpt-4o-mini</id>
+                    <name>GPT-4o Mini (recommended)</name>
+                    <name lang="de-DE">GPT-4o Mini (empfohlen)</name>
+                </option>
+                <option>
+                    <id>gpt-4o</id>
+                    <name>GPT-4o</name>
+                </option>
+                <option>
+                    <id>gpt-4-turbo</id>
+                    <name>GPT-4 Turbo</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableLogging</name>
+            <label>Enable Logging</label>
+            <label lang="de-DE">Logging aktivieren</label>
+            <helpText>Enable detailed logging of API requests and query execution</helpText>
+            <helpText lang="de-DE">Detailliertes Logging von API-Anfragen und Query-Ausführung aktivieren</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>defaultPageSize</name>
+            <label>Default Page Size</label>
+            <label lang="de-DE">Standard-Seitengröße</label>
+            <helpText>Default number of results per page</helpText>
+            <helpText lang="de-DE">Standard-Anzahl der Ergebnisse pro Seite</helpText>
+            <defaultValue>25</defaultValue>
+            <min>1</min>
+            <max>200</max>
+        </input-field>
+
+        <input-field type="int">
+            <name>maxPageSize</name>
+            <label>Maximum Page Size</label>
+            <label lang="de-DE">Maximale Seitengröße</label>
+            <helpText>Maximum number of results per page</helpText>
+            <helpText lang="de-DE">Maximale Anzahl der Ergebnisse pro Seite</helpText>
+            <defaultValue>200</defaultValue>
+            <min>1</min>
+            <max>1000</max>
+        </input-field>
+
+        <input-field type="int">
+            <name>sqlTimeoutMs</name>
+            <label>SQL Timeout (ms)</label>
+            <label lang="de-DE">SQL Timeout (ms)</label>
+            <helpText>Timeout for database queries in milliseconds</helpText>
+            <helpText lang="de-DE">Timeout für Datenbankabfragen in Millisekunden</helpText>
+            <defaultValue>20000</defaultValue>
+            <min>1000</min>
+            <max>60000</max>
+        </input-field>
+
+        <input-field type="text">
+            <name>locale</name>
+            <label>Locale</label>
+            <label lang="de-DE">Gebietsschema</label>
+            <helpText>Locale for natural language time references (e.g., de_DE, en_US)</helpText>
+            <helpText lang="de-DE">Gebietsschema für natürlichsprachliche Zeitangaben (z.B. de_DE, en_US)</helpText>
+            <defaultValue>de_DE</defaultValue>
+        </input-field>
+    </card>
+</config>

@@ -1,0 +1,149 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Entity Definitions -->
+        <service id="Swag\IntelligentSearchOptimizer\Entity\SearchQueryLog\SearchQueryLogDefinition">
+            <tag name="shopware.entity.definition" entity="search_query_log" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Entity\SearchSynonym\SearchSynonymDefinition">
+            <tag name="shopware.entity.definition" entity="search_synonym" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Entity\SearchRedirect\SearchRedirectDefinition">
+            <tag name="shopware.entity.definition" entity="search_redirect" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Core\Content\SpellCheck\SpellCheckDictionaryDefinition">
+            <tag name="shopware.entity.definition" entity="search_optimizer_dictionary" />
+        </service>
+
+        <!-- Services -->
+        <service id="Swag\IntelligentSearchOptimizer\Service\SearchQueryNormalizer">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\SynonymService">
+            <argument type="service" id="search_synonym.repository" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\SearchAnalyticsService">
+            <argument type="service" id="search_query_log.repository" />
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\SearchLogCleanupService">
+            <argument type="service" id="search_query_log.repository" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="logger" on-invalid="null" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\SpellCheckService">
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+            <argument type="service" id="search_optimizer_dictionary.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\SearchIntentService">
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\RevenueTrackingService">
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="order.repository" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Service\TrendingSearchService">
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <!-- Event Subscribers -->
+        <service id="Swag\IntelligentSearchOptimizer\Subscriber\SearchEventSubscriber">
+            <argument type="service" id="search_query_log.repository" />
+            <argument type="service" id="search_redirect.repository" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="Shopware\Elasticsearch\Framework\ElasticsearchHelper" on-invalid="null" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchQueryNormalizer" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SynonymService" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SpellCheckService" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchIntentService" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\RevenueTrackingService" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\TrendingSearchService" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Subscriber\StorefrontSearchSubscriber">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="search_query_log.repository" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchQueryNormalizer" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SynonymService" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\Subscriber\OrderEventSubscriber">
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\RevenueTrackingService" />
+            <argument type="service" id="logger" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <!-- Admin API Controllers -->
+        <service id="Swag\IntelligentSearchOptimizer\Controller\Api\SearchAnalyticsController" public="true">
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchAnalyticsService" />
+            <argument type="service" id="search_query_log.repository" />
+            <argument type="service" id="search_synonym.repository" />
+            <argument type="service" id="search_redirect.repository" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <!-- Commands -->
+        <service id="Swag\IntelligentSearchOptimizer\Command\CleanupSearchLogsCommand">
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchLogCleanupService" />
+            <tag name="console.command" />
+        </service>
+
+        <!-- Scheduled Tasks -->
+        <service id="Swag\IntelligentSearchOptimizer\ScheduledTask\CleanupSearchLogsTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\ScheduledTask\CleanupSearchLogsTaskHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchLogCleanupService" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\ScheduledTask\AnalyzeTrendingSearchesTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Swag\IntelligentSearchOptimizer\ScheduledTask\AnalyzeTrendingSearchesTaskHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\TrendingSearchService" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <!-- Search Decorator -->
+        <service id="Swag\IntelligentSearchOptimizer\Decorator\ProductSearchBuilderDecorator"
+                 decorates="Shopware\Core\Content\Product\SearchKeyword\ProductSearchBuilderInterface"
+                 decoration-priority="-1000">
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Decorator\ProductSearchBuilderDecorator.inner" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SynonymService" />
+            <argument type="service" id="Swag\IntelligentSearchOptimizer\Service\SearchQueryNormalizer" />
+        </service>
+    </services>
+</container>

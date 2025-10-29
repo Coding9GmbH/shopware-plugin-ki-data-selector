@@ -1,0 +1,204 @@
+got <?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>General Settings</title>
+        <title lang="de-DE">Allgemeine Einstellungen</title>
+
+        <input-field type="bool">
+            <name>enabled</name>
+            <label>Enable search tracking</label>
+            <label lang="de-DE">Suchprotokollierung aktivieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>logRetentionDays</name>
+            <label>Search log retention (days)</label>
+            <label lang="de-DE">Aufbewahrung der Suchprotokolle (Tage)</label>
+            <defaultValue>90</defaultValue>
+            <min>1</min>
+            <max>365</max>
+        </input-field>
+
+        <input-field type="int">
+            <name>minSearchLength</name>
+            <label>Minimum search term length</label>
+            <label lang="de-DE">Minimale Suchbegriffslänge</label>
+            <defaultValue>3</defaultValue>
+            <min>1</min>
+            <max>10</max>
+        </input-field>
+
+        <input-field type="bool">
+            <name>trackAnonymousSearches</name>
+            <label>Track anonymous searches</label>
+            <label lang="de-DE">Anonyme Suchen protokollieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>enableCharacterNormalization</name>
+            <label>Enable character normalization</label>
+            <label lang="de-DE">Zeichen-Normalisierung aktivieren</label>
+            <helpText>Allows search to find products with different character variations</helpText>
+            <helpText lang="de-DE">Ermöglicht die Suche nach Produkten mit verschiedenen Zeichen-Varianten</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>characterMappings</name>
+            <label>Character mappings</label>
+            <label lang="de-DE">Zeichen-Zuordnungen</label>
+            <helpText>Define character replacements (one per line). Format: "source target" or "source1,source2 target"</helpText>
+            <helpText lang="de-DE">Definieren Sie Zeichen-Ersetzungen (eine pro Zeile). Format: "quelle ziel" oder "quelle1,quelle2 ziel"</helpText>
+            <placeholder># Default mappings
+-  
+_ 
+/  
+&amp; and
++ plus
+ä ae
+ö oe
+ü ue
+ß ss</placeholder>
+            <defaultValue>-  
+_  
+/  </defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>bidirectionalMapping</name>
+            <label>Bidirectional character mapping</label>
+            <label lang="de-DE">Bidirektionale Zeichen-Zuordnung</label>
+            <helpText>When enabled, mappings work in both directions (e.g., "Test-Product" finds "Test Product" and vice versa)</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, funktionieren Zuordnungen in beide Richtungen (z.B. "Test-Produkt" findet "Test Produkt" und umgekehrt)</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Zero Results Settings</title>
+        <title lang="de-DE">Nulltreffer-Einstellungen</title>
+
+        <input-field type="bool">
+            <name>showSuggestionsOnZeroResults</name>
+            <label>Show suggestions on zero results</label>
+            <label lang="de-DE">Vorschläge bei Nulltreffern anzeigen</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>zeroResultsAlertThreshold</name>
+            <label>Zero results alert threshold</label>
+            <label lang="de-DE">Nulltreffer-Warnschwelle</label>
+            <helpText>Send alert when a search term produces zero results this many times</helpText>
+            <helpText lang="de-DE">Warnung senden, wenn ein Suchbegriff so oft keine Ergebnisse liefert</helpText>
+            <defaultValue>10</defaultValue>
+            <min>1</min>
+            <max>100</max>
+        </input-field>
+
+        <input-field type="text">
+            <name>zeroResultsAlertEmail</name>
+            <label>Alert email address</label>
+            <label lang="de-DE">Warn-E-Mail-Adresse</label>
+            <placeholder>admin@example.com</placeholder>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Performance Settings</title>
+        <title lang="de-DE">Performance-Einstellungen</title>
+
+        <input-field type="bool">
+            <name>asyncLogging</name>
+            <label>Asynchronous logging</label>
+            <label lang="de-DE">Asynchrone Protokollierung</label>
+            <helpText>Log searches asynchronously to improve performance</helpText>
+            <helpText lang="de-DE">Suchen asynchron protokollieren für bessere Performance</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>cleanupBatchSize</name>
+            <label>Cleanup batch size</label>
+            <label lang="de-DE">Bereinigungs-Batchgröße</label>
+            <defaultValue>1000</defaultValue>
+            <min>100</min>
+            <max>10000</max>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Elasticsearch Settings</title>
+        <title lang="de-DE">Elasticsearch-Einstellungen</title>
+
+        <input-field type="bool">
+            <name>useElasticsearchSynonyms</name>
+            <label>Use Elasticsearch for synonyms</label>
+            <label lang="de-DE">Elasticsearch für Synonyme verwenden</label>
+            <helpText>When enabled, synonyms will be applied in Elasticsearch queries</helpText>
+            <helpText lang="de-DE">Wenn aktiviert, werden Synonyme in Elasticsearch-Abfragen angewendet</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>expandSynonymsInQueries</name>
+            <label>Expand synonyms in search queries</label>
+            <label lang="de-DE">Synonyme in Suchanfragen erweitern</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Spell Check Settings</title>
+        <title lang="de-DE">Rechtschreibprüfung-Einstellungen</title>
+
+        <input-field type="bool">
+            <name>enableSpellCheck</name>
+            <label>Enable spell check suggestions</label>
+            <label lang="de-DE">Rechtschreibvorschläge aktivieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>autoLearnFromSearches</name>
+            <label>Auto-learn from successful searches</label>
+            <label lang="de-DE">Automatisch von erfolgreichen Suchen lernen</label>
+            <helpText>Add successful search terms to the dictionary</helpText>
+            <helpText lang="de-DE">Erfolgreiche Suchbegriffe zum Wörterbuch hinzufügen</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Trending Searches</title>
+        <title lang="de-DE">Trending-Suchen</title>
+
+        <input-field type="bool">
+            <name>enableTrendingDetection</name>
+            <label>Enable trending search detection</label>
+            <label lang="de-DE">Trending-Suchen-Erkennung aktivieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>trendingThreshold</name>
+            <label>Trending threshold percentage</label>
+            <label lang="de-DE">Trending-Schwellenwert in Prozent</label>
+            <helpText>Minimum percentage increase to be considered trending</helpText>
+            <helpText lang="de-DE">Minimale prozentuale Steigerung für Trending-Status</helpText>
+            <defaultValue>200</defaultValue>
+            <min>50</min>
+            <max>1000</max>
+        </input-field>
+
+        <input-field type="text">
+            <name>trendingAlertEmail</name>
+            <label>Trending alert email</label>
+            <label lang="de-DE">Trending-Benachrichtigungs-E-Mail</label>
+            <placeholder>trending@example.com</placeholder>
+        </input-field>
+    </card>
+</config>

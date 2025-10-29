@@ -1,0 +1,65 @@
+{% block search_normalization_tester %}
+<div class="search-normalization-tester">
+    <sw-text-field
+        :value="testInput"
+        :label="$tc('search-optimizer.normalization.testLabel')"
+        :placeholder="$tc('search-optimizer.normalization.testPlaceholder')"
+        @input="testInput = $event; onInputChange()">
+    </sw-text-field>
+    
+    <div v-if="formattedMappings.length > 0" class="search-normalization-tester__mappings">
+        <p class="search-normalization-tester__mappings-title">
+            {{ $tc('search-optimizer.normalization.activeMappings') }}
+        </p>
+        <div class="search-normalization-tester__mapping-list">
+            <sw-label 
+                v-for="mapping in formattedMappings" 
+                :key="`${mapping.source}-${mapping.target}`"
+                size="small"
+                appearance="neutral">
+                {{ mapping.source }} → {{ mapping.target }}
+            </sw-label>
+        </div>
+    </div>
+    
+    <div v-if="hasVariations" class="search-normalization-tester__results">
+        <p class="search-normalization-tester__info">
+            {{ $tc('search-optimizer.normalization.info') }}
+        </p>
+        
+        <sw-container columns="1fr" gap="10px">
+            <div 
+                v-for="variation in variations" 
+                :key="variation.type + variation.value"
+                class="search-normalization-tester__variation">
+                <sw-label 
+                    :appearance="variation.type === 'original' ? 'primary' : variation.type === 'normalized' ? 'success' : 'default'"
+                    size="small">
+                    {{ variation.label }}
+                </sw-label>
+                <code>{{ variation.value }}</code>
+            </div>
+        </sw-container>
+        
+        <div class="search-normalization-tester__example">
+            <sw-alert variant="info" appearance="default" :closable="false">
+                <p>{{ $tc('search-optimizer.normalization.exampleInfo') }}</p>
+                <ul>
+                    <li v-for="mapping in formattedMappings" :key="mapping.example">
+                        {{ mapping.example }}
+                    </li>
+                </ul>
+            </sw-alert>
+        </div>
+    </div>
+    
+    <sw-button 
+        v-if="characterMappings.length > 0"
+        size="small" 
+        variant="ghost" 
+        @click="onRefreshMappings"
+        :isLoading="isLoading">
+        {{ $tc('search-optimizer.normalization.refresh') }}
+    </sw-button>
+</div>
+{% endblock %}

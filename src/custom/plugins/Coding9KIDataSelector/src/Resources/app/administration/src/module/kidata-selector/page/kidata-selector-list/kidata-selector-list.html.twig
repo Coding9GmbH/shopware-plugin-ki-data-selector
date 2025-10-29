@@ -1,0 +1,68 @@
+{% block kidata_selector_list %}
+<sw-page class="kidata-selector-list">
+    {% block kidata_selector_list_header %}
+    <template #smart-bar-header>
+        <h2>Gespeicherte Queries</h2>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_list_actions %}
+    <template #smart-bar-actions>
+        <sw-button
+            variant="primary"
+            @click="onCreateQuery">
+            Neue Query erstellen
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_list_content %}
+    <template #content>
+        <sw-card-view>
+            <sw-card :isLoading="isLoading">
+                <template v-if="hasQueries">
+                    <sw-data-grid
+                        :dataSource="queries"
+                        :columns="[
+                            { property: 'name', label: 'Name', primary: true },
+                            { property: 'description', label: 'Beschreibung' },
+                            { property: 'created_at', label: 'Erstellt am' }
+                        ]"
+                        :showSelection="false"
+                        :isLoading="isLoading"
+                        @inline-edit-save="() => {}">
+
+                        <template #actions="{ item }">
+                            <sw-context-menu-item
+                                @click="onViewQuery(item.id)">
+                                Öffnen
+                            </sw-context-menu-item>
+                            <sw-context-menu-item
+                                variant="danger"
+                                @click="deleteQuery(item.id)">
+                                Löschen
+                            </sw-context-menu-item>
+                        </template>
+                    </sw-data-grid>
+                </template>
+
+                <template v-else>
+                    <sw-empty-state
+                        v-if="!isLoading"
+                        title="Keine gespeicherten Queries"
+                        description="Erstellen Sie Ihre erste Query">
+                        <template #actions>
+                            <sw-button
+                                variant="primary"
+                                @click="onCreateQuery">
+                                Neue Query erstellen
+                            </sw-button>
+                        </template>
+                    </sw-empty-state>
+                </template>
+            </sw-card>
+        </sw-card-view>
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

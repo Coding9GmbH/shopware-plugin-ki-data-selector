@@ -1,0 +1,90 @@
+{% block search_optimizer_zero_results %}
+<sw-page class="search-optimizer-zero-results">
+    {% block search_optimizer_zero_results_header %}
+    <template #smart-bar-header>
+        <h2>{{ $tc('search-optimizer.zeroResults.title') }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_zero_results_actions %}
+    <template #smart-bar-actions>
+        <sw-button @click="onExport">
+            {{ $tc('search-optimizer.dashboard.export') }}
+        </sw-button>
+        <sw-button variant="primary" @click="onRefresh">
+            {{ $tc('global.default.refresh') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block search_optimizer_zero_results_content %}
+    <template #content>
+        <sw-card-view>
+            {% block search_optimizer_zero_results_filters %}
+            <sw-card :title="$tc('search-optimizer.dashboard.filters')" :isLoading="isLoading">
+                <sw-container columns="repeat(auto-fit, minmax(200px, 1fr))" gap="20px">
+                    <sw-datepicker
+                        :value="dateFrom"
+                        :label="$tc('search-optimizer.dashboard.dateFrom')"
+                        @input="dateFrom = $event; loadData()">
+                    </sw-datepicker>
+                    
+                    <sw-datepicker
+                        :value="dateTo"
+                        :label="$tc('search-optimizer.dashboard.dateTo')"
+                        @input="dateTo = $event; loadData()">
+                    </sw-datepicker>
+                    
+                    <sw-entity-single-select
+                        :value="selectedSalesChannelId"
+                        entity="sales_channel"
+                        :label="$tc('search-optimizer.dashboard.salesChannel')"
+                        @input="selectedSalesChannelId = $event; loadData()">
+                    </sw-entity-single-select>
+                    
+                    <sw-entity-single-select
+                        :value="selectedLanguageId"
+                        entity="language"
+                        :label="$tc('search-optimizer.dashboard.language')"
+                        @input="selectedLanguageId = $event; loadData()">
+                    </sw-entity-single-select>
+                </sw-container>
+            </sw-card>
+            {% endblock %}
+
+            {% block search_optimizer_zero_results_list %}
+            <sw-card :isLoading="isLoading">
+                <sw-data-grid
+                    :dataSource="items"
+                    :columns="columns"
+                    :showSelection="false"
+                    :showActions="true"
+                    :fullPage="false">
+                    
+                    <template #column-search_term="{ item }">
+                        <strong>{{ item.search_term }}</strong>
+                    </template>
+                    
+                    <template #actions="{ item }">
+                        <sw-context-menu-item @click="createSynonym(item)">
+                            {{ $tc('search-optimizer.zeroResults.createSynonym') }}
+                        </sw-context-menu-item>
+                        <sw-context-menu-item @click="createRedirect(item)">
+                            {{ $tc('search-optimizer.zeroResults.createRedirect') }}
+                        </sw-context-menu-item>
+                    </template>
+                </sw-data-grid>
+                
+                <sw-empty-state 
+                    v-if="!isLoading && items.length === 0"
+                    :title="$tc('search-optimizer.zeroResults.emptyState.title')"
+                    :subline="$tc('search-optimizer.zeroResults.emptyState.subtitle')"
+                    :absolute="false">
+                </sw-empty-state>
+            </sw-card>
+            {% endblock %}
+        </sw-card-view>
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

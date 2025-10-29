@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  shop:
+    container_name: shop
+    image: dockware/dev:6.6.9.0
+    ports:
+      - "22:22"     # ssh
+      - "3080:80"     # apache2
+      - "30443:443"   # apache2 https
+      - "38888:8888" # watch admin
+      - "39998:9998" # watch storefront proxy
+      - "39999:9999" # watch storefront
+      - "33306:3306" # mysql port
+    volumes:
+      - "./src:/var/www/html"
+    networks:
+      - web
+    environment:
+      - XDEBUG_ENABLED=0
+
+## ***********************************************************************
+##  NETWORKS
+## ***********************************************************************
+networks:
+  web:
+    external: false

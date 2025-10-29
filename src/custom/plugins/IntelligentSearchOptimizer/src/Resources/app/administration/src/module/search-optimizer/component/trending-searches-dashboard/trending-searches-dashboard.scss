@@ -1,0 +1,80 @@
+.trending-searches-dashboard {
+    .sw-alert {
+        margin-bottom: 20px;
+    }
+
+    .sw-card {
+        &.variant-neutral {
+            .sw-card-section {
+                text-align: center;
+                padding: 20px;
+
+                .sw-icon {
+                    margin-bottom: 10px;
+                }
+
+                h3 {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin: 10px 0 5px;
+                }
+
+                p {
+                    color: #758CA3;
+                    font-size: 14px;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .trending-term {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .trend-score {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+    }
+
+    .search-count {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        .vs {
+            color: #758CA3;
+            font-size: 12px;
+        }
+        
+        .previous {
+            color: #758CA3;
+        }
+    }
+
+    .sw-chart-card {
+        margin-top: 15px;
+        min-height: 350px;
+    }
+
+    .sw-button-group {
+        display: inline-flex;
+        margin-right: 20px;
+    }
+
+    .sw-mb-3 {
+        margin-bottom: 20px;
+    }
+
+    .sw-mb-4 {
+        margin-bottom: 30px;
+    }
+
+    .sw-mt-2 {
+        margin-top: 15px;
+    }
+}

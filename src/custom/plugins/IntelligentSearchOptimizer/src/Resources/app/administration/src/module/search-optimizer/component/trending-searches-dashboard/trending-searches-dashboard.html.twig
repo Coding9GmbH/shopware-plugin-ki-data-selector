@@ -1,0 +1,177 @@
+{% block trending_searches_dashboard %}
+<sw-card :title="$tc('search-optimizer.trending.title')" :isLoading="isLoading">
+    
+    <!-- Real-time Trending Alert -->
+    <sw-alert 
+        v-if="hasRealtimeTrends"
+        variant="info"
+        :title="$tc('search-optimizer.trending.realtimeAlert')"
+        :closable="false"
+        class="sw-mb-3">
+        <p>{{ $tc('search-optimizer.trending.realtimeDescription', trendingNow.length, { count: trendingNow.length }) }}</p>
+        <sw-container columns="repeat(auto-fill, minmax(200px, 1fr))" gap="10px" class="sw-mt-2">
+            <sw-label 
+                v-for="trend in trendingNow.slice(0, 5)" 
+                :key="trend.search_term"
+                variant="success"
+                size="default">
+                {{ trend.search_term }} 
+                <sw-icon name="regular-long-arrow-up" size="10" />
+                {{ trend.trend_score }}%
+            </sw-label>
+        </sw-container>
+    </sw-alert>
+    
+    <!-- Trending Overview -->
+    <sw-container columns="repeat(4, 1fr)" gap="20px" class="sw-mb-4">
+        <sw-card variant="neutral">
+            <sw-card-section>
+                <sw-icon name="regular-fire" size="32" color="#ff6b6b" />
+                <h3>{{ activeTrends }}</h3>
+                <p>{{ $tc('search-optimizer.trending.activeTrends') }}</p>
+            </sw-card-section>
+        </sw-card>
+        
+        <sw-card variant="neutral">
+            <sw-card-section>
+                <sw-icon name="regular-search" size="32" color="#4ecdc4" />
+                <h3>{{ totalSearchesHour }}</h3>
+                <p>{{ $tc('search-optimizer.trending.searchesThisHour') }}</p>
+            </sw-card-section>
+        </sw-card>
+        
+        <sw-card variant="neutral">
+            <sw-card-section>
+                <sw-icon name="regular-chart-line" size="32" color="#45b7d1" />
+                <h3>{{ avgTrendScore }}%</h3>
+                <p>{{ $tc('search-optimizer.trending.avgGrowth') }}</p>
+            </sw-card-section>
+        </sw-card>
+        
+        <sw-card variant="neutral">
+            <sw-card-section>
+                <sw-icon name="regular-bell" size="32" color="#f7b731" />
+                <h3>{{ alertsSent }}</h3>
+                <p>{{ $tc('search-optimizer.trending.alertsSent') }}</p>
+            </sw-card-section>
+        </sw-card>
+    </sw-container>
+    
+    <!-- Trending Timeline Chart -->
+    <sw-card-section divider="bottom">
+        <h3>{{ $tc('search-optimizer.trending.timeline') }}</h3>
+        
+        <sw-chart-card>
+            <sw-chart
+                :options="chartOptions"
+                :datasets="chartData"
+                type="line"
+                :height="300">
+            </sw-chart>
+        </sw-chart-card>
+    </sw-card-section>
+    
+    <!-- Trending Search Terms Table -->
+    <sw-card-section>
+        <h3>{{ $tc('search-optimizer.trending.topTrending') }}</h3>
+        
+        <sw-data-grid
+            v-if="trendingSearches.length > 0"
+            :dataSource="trendingSearches"
+            :columns="columns"
+            :showSelection="false"
+            :showActions="true">
+            
+            <template #column-search_term="{ item }">
+                <div class="trending-term">
+                    <strong>{{ item.search_term }}</strong>
+                    <sw-label 
+                        v-if="item.is_new"
+                        variant="info"
+                        size="small"
+                        appearance="pill">
+                        {{ $tc('search-optimizer.trending.new') }}
+                    </sw-label>
+                </div>
+            </template>
+            
+            <template #column-trend_score="{ item }">
+                <div class="trend-score">
+                    <sw-icon 
+                        :name="getTrendIcon(item.trend_score)" 
+                        :color="getTrendColor(item.trend_score)"
+                        size="16" />
+                    <span :style="{ color: getTrendColor(item.trend_score) }">
+                        +{{ Math.round(item.trend_score) }}%
+                    </span>
+                </div>
+            </template>
+            
+            <template #column-search_count="{ item }">
+                <div class="search-count">
+                    <span>{{ item.search_count }}</span>
+                    <span class="vs">vs</span>
+                    <span class="previous">{{ item.previous_hour_count }}</span>
+                </div>
+            </template>
+            
+            <template #column-alert_sent="{ item }">
+                <sw-icon 
+                    v-if="item.alert_sent"
+                    name="regular-bell"
+                    color="#28a745"
+                    size="16" />
+                <sw-icon 
+                    v-else
+                    name="regular-bell-slash"
+                    color="#6c757d"
+                    size="16" />
+            </template>
+            
+            <template #actions="{ item }">
+                <sw-context-button>
+                    <sw-context-menu-item @click="viewSearchResults(item)">
+                        {{ $tc('search-optimizer.trending.viewResults') }}
+                    </sw-context-menu-item>
+                    <sw-context-menu-item @click="createRedirect(item)">
+                        {{ $tc('search-optimizer.trending.createRedirect') }}
+                    </sw-context-menu-item>
+                    <sw-context-menu-item @click="addToPromotions(item)">
+                        {{ $tc('search-optimizer.trending.promote') }}
+                    </sw-context-menu-item>
+                </sw-context-button>
+            </template>
+        </sw-data-grid>
+        
+        <sw-empty-state 
+            v-else
+            :title="$tc('search-optimizer.trending.noTrends')"
+            icon="regular-chart-line">
+            {{ $tc('search-optimizer.trending.noTrendsDescription') }}
+        </sw-empty-state>
+    </sw-card-section>
+    
+    <!-- Filters -->
+    <template #grid-actions>
+        <sw-button-group>
+            <sw-button 
+                v-for="period in timePeriods"
+                :key="period.value"
+                :variant="selectedPeriod === period.value ? 'primary' : 'ghost'"
+                size="small"
+                @click="selectedPeriod = period.value; loadData()">
+                {{ period.label }}
+            </sw-button>
+        </sw-button-group>
+        
+        <sw-single-select
+            :value="selectedSalesChannel"
+            @input="onSalesChannelChange"
+            :options="salesChannels"
+            :label="$tc('search-optimizer.trending.salesChannel')"
+            :placeholder="$tc('search-optimizer.trending.allChannels')"
+            size="small">
+        </sw-single-select>
+    </template>
+</sw-card>
+{% endblock %}

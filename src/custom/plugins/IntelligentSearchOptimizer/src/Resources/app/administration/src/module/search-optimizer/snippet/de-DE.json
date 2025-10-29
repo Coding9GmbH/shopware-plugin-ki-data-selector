@@ -1,0 +1,123 @@
+{
+    "search-optimizer": {
+        "general": {
+            "mainMenuItemGeneral": "Suchanalyse",
+            "mainMenuItemDashboard": "Dashboard",
+            "mainMenuItemZeroResults": "Nulltreffer",
+            "mainMenuItemSynonyms": "Synonyme",
+            "mainMenuItemRedirects": "Weiterleitungen",
+            "descriptionTextModule": "Intelligente Suchanalyse und Optimierung"
+        },
+        "dashboard": {
+            "title": "Suchanalyse Dashboard",
+            "filters": "Filter",
+            "dateFrom": "Von Datum",
+            "dateTo": "Bis Datum",
+            "salesChannel": "Verkaufskanal",
+            "language": "Sprache",
+            "summary": {
+                "title": "Zusammenfassung",
+                "totalSearches": "Gesamte Suchanfragen",
+                "uniqueTerms": "Eindeutige Suchbegriffe",
+                "zeroResults": "Nulltreffer",
+                "conversionRate": "Konversionsrate"
+            },
+            "topSearches": {
+                "title": "Top Suchbegriffe",
+                "term": "Suchbegriff",
+                "count": "Anzahl",
+                "results": "Ergebnisse",
+                "conversion": "Konversion"
+            },
+            "trends": {
+                "title": "Suchtrends"
+            },
+            "export": "Exportieren",
+            "error": {
+                "title": "Fehler beim Laden",
+                "export": "Export fehlgeschlagen"
+            }
+        },
+        "zeroResults": {
+            "title": "Nulltreffer-Suchen",
+            "term": "Suchbegriff",
+            "count": "Anzahl",
+            "uniqueSessions": "Eindeutige Sitzungen",
+            "lastSearched": "Zuletzt gesucht",
+            "action": "Aktion",
+            "createSynonym": "Synonym erstellen",
+            "createRedirect": "Weiterleitung erstellen",
+            "emptyState": {
+                "title": "Keine Nulltreffer gefunden",
+                "subtitle": "Es wurden keine Suchanfragen ohne Ergebnisse im ausgewählten Zeitraum gefunden."
+            },
+            "error": {
+                "title": "Fehler beim Laden",
+                "export": "Export fehlgeschlagen"
+            }
+        },
+        "synonyms": {
+            "title": "Synonymverwaltung",
+            "keyword": "Schlüsselwort",
+            "synonym": "Synonym",
+            "language": "Sprache",
+            "salesChannel": "Verkaufskanal",
+            "active": "Aktiv",
+            "create": "Synonym erstellen",
+            "createTitle": "Neues Synonym erstellen",
+            "edit": "Bearbeiten",
+            "editTitle": "Synonym bearbeiten",
+            "delete": "Löschen",
+            "keywordPlaceholder": "z.B. Handy",
+            "synonymPlaceholder": "z.B. Smartphone",
+            "languagePlaceholder": "Alle Sprachen",
+            "salesChannelPlaceholder": "Alle Verkaufskanäle",
+            "saveSuccess": "Synonym wurde gespeichert",
+            "saveError": "Fehler beim Speichern",
+            "createSuccess": "Synonym wurde erstellt",
+            "createError": "Fehler beim Erstellen",
+            "validationError": "Bitte füllen Sie alle Pflichtfelder aus"
+        },
+        "redirects": {
+            "title": "Weiterleitungsverwaltung",
+            "searchTerm": "Suchbegriff",
+            "targetUrl": "Ziel-URL",
+            "targetType": "Zieltyp",
+            "targetCategory": "Zielkategorie",
+            "targetProduct": "Zielprodukt",
+            "targetLandingPage": "Ziel-Landingpage",
+            "priority": "Priorität",
+            "active": "Aktiv",
+            "create": "Weiterleitung erstellen",
+            "createTitle": "Neue Weiterleitung erstellen",
+            "edit": "Bearbeiten",
+            "editTitle": "Weiterleitung bearbeiten",
+            "delete": "Löschen",
+            "searchTermPlaceholder": "z.B. Sonderangebot",
+            "targetUrlPlaceholder": "z.B. /sale",
+            "priorityPlaceholder": "0-999 (höher = wichtiger)",
+            "languagePlaceholder": "Alle Sprachen",
+            "salesChannelPlaceholder": "Alle Verkaufskanäle",
+            "saveSuccess": "Weiterleitung wurde gespeichert",
+            "saveError": "Fehler beim Speichern",
+            "createSuccess": "Weiterleitung wurde erstellt",
+            "createError": "Fehler beim Erstellen",
+            "validationError": "Bitte füllen Sie alle Pflichtfelder aus",
+            "types": {
+                "url": "URL",
+                "category": "Kategorie",
+                "product": "Produkt",
+                "landingPage": "Landingpage"
+            }
+        },
+        "normalization": {
+            "testLabel": "Suchbegriff testen",
+            "testPlaceholder": "z.B. Test-Produkt",
+            "info": "Diese Varianten werden bei der Suche berücksichtigt:",
+            "original": "Original",
+            "withSpaces": "Mit Leerzeichen",
+            "withHyphens": "Mit Bindestrichen",
+            "normalized": "Normalisiert"
+        }
+    }
+}

@@ -1,0 +1,46 @@
+.revenue-tracking-dashboard {
+    .sw-card {
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        h4 {
+            margin-bottom: 10px;
+            color: #52667A;
+        }
+    }
+
+    .sw-text-large {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin: 10px 0;
+    }
+
+    .sw-text-center {
+        text-align: center;
+    }
+
+    .sw-text-color-secondary {
+        color: #758CA3;
+    }
+
+    .sw-progress-bar {
+        max-width: 150px;
+
+        &.sw-mt-2 {
+            margin-top: 15px;
+        }
+    }
+
+    .sw-chart-card {
+        min-height: 400px;
+    }
+
+    &__filters {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+}

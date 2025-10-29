@@ -1,0 +1,148 @@
+{% block spell_check_dashboard %}
+<sw-card :title="$tc('search-optimizer.spellCheck.title')" :isLoading="isLoading">
+    <sw-container columns="1fr" gap="30px">
+        
+        <!-- Spell Check Suggestions -->
+        <sw-card-section divider="bottom">
+            <h3>{{ $tc('search-optimizer.spellCheck.recentSuggestions') }}</h3>
+            
+            <sw-data-grid
+                v-if="suggestions.length > 0"
+                :dataSource="suggestions"
+                :columns="suggestionColumns"
+                :showSelection="false"
+                :showActions="true">
+                
+                <template #column-misspelling="{ item }">
+                    <sw-highlight-text 
+                        :searchTerm="searchTerm"
+                        :text="item.misspelling" />
+                </template>
+                
+                <template #column-correction="{ item }">
+                    <sw-label variant="success" size="small">
+                        {{ item.correction }}
+                    </sw-label>
+                </template>
+                
+                <template #column-confidence="{ item }">
+                    <sw-progress-bar 
+                        :value="item.confidence * 100" 
+                        :label="`${Math.round(item.confidence * 100)}%`" />
+                </template>
+                
+                <template #actions="{ item }">
+                    <sw-context-button>
+                        <sw-context-menu-item @click="approveSuggestion(item)">
+                            {{ $tc('search-optimizer.spellCheck.approve') }}
+                        </sw-context-menu-item>
+                        <sw-context-menu-item @click="rejectSuggestion(item)" variant="danger">
+                            {{ $tc('search-optimizer.spellCheck.reject') }}
+                        </sw-context-menu-item>
+                    </sw-context-button>
+                </template>
+            </sw-data-grid>
+            
+            <sw-empty-state 
+                v-else
+                :title="$tc('search-optimizer.spellCheck.noSuggestions')"
+                icon="regular-spell-check">
+            </sw-empty-state>
+        </sw-card-section>
+        
+        <!-- Dictionary Management -->
+        <sw-card-section>
+            <h3>{{ $tc('search-optimizer.spellCheck.dictionary') }}</h3>
+            
+            <sw-button-group>
+                <sw-button @click="showAddWordModal = true" variant="primary" size="small">
+                    {{ $tc('search-optimizer.spellCheck.addWord') }}
+                </sw-button>
+                <sw-button @click="importDictionary" size="small">
+                    {{ $tc('search-optimizer.spellCheck.importDictionary') }}
+                </sw-button>
+                <sw-button @click="exportDictionary" size="small">
+                    {{ $tc('search-optimizer.spellCheck.exportDictionary') }}
+                </sw-button>
+            </sw-button-group>
+            
+            <sw-simple-search-field
+                v-model="dictionarySearchTerm"
+                :placeholder="$tc('search-optimizer.spellCheck.searchDictionary')"
+                @search-term-change="loadDictionary"
+                class="sw-mt-3">
+            </sw-simple-search-field>
+            
+            <sw-data-grid
+                v-if="dictionaryWords.length > 0"
+                :dataSource="dictionaryWords"
+                :columns="dictionaryColumns"
+                :showSelection="true"
+                :showActions="true"
+                class="sw-mt-3">
+                
+                <template #column-type="{ item }">
+                    <sw-label 
+                        v-if="item.type"
+                        :variant="getTypeVariant(item.type)" 
+                        size="small">
+                        {{ item.type }}
+                    </sw-label>
+                </template>
+                
+                <template #actions="{ item }">
+                    <sw-context-button>
+                        <sw-context-menu-item @click="editWord(item)">
+                            {{ $tc('global.default.edit') }}
+                        </sw-context-menu-item>
+                        <sw-context-menu-item @click="deleteWord(item)" variant="danger">
+                            {{ $tc('global.default.delete') }}
+                        </sw-context-menu-item>
+                    </sw-context-button>
+                </template>
+            </sw-data-grid>
+        </sw-card-section>
+        
+    </sw-container>
+    
+    <!-- Add Word Modal -->
+    <sw-modal
+        v-if="showAddWordModal"
+        :title="$tc('search-optimizer.spellCheck.addWord')"
+        @modal-close="showAddWordModal = false">
+        
+        <sw-text-field
+            v-model="newWord.word"
+            :label="$tc('search-optimizer.spellCheck.word')"
+            :placeholder="$tc('search-optimizer.spellCheck.wordPlaceholder')"
+            required>
+        </sw-text-field>
+        
+        <sw-select-field
+            v-model="newWord.type"
+            :label="$tc('search-optimizer.spellCheck.wordType')"
+            :placeholder="$tc('search-optimizer.spellCheck.selectType')">
+            <option value="brand">{{ $tc('search-optimizer.spellCheck.typeBrand') }}</option>
+            <option value="technical">{{ $tc('search-optimizer.spellCheck.typeTechnical') }}</option>
+            <option value="general">{{ $tc('search-optimizer.spellCheck.typeGeneral') }}</option>
+        </sw-select-field>
+        
+        <sw-select-field
+            v-model="newWord.language"
+            :label="$tc('search-optimizer.spellCheck.language')"
+            :placeholder="$tc('search-optimizer.spellCheck.selectLanguage')">
+            <option value="en-GB">English</option>
+            <option value="de-DE">Deutsch</option>
+        </sw-select-field>
+        
+        <template #modal-footer>
+            <sw-button @click="showAddWordModal = false" size="small">
+                {{ $tc('global.default.cancel') }}
+            </sw-button>
+            <sw-button @click="saveWord" variant="primary" size="small">
+                {{ $tc('global.default.save') }}
+            </sw-button>
+        </template>
+    </sw-modal>
+</sw-card>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% block kidata_selector_index %}
+<sw-page class="kidata-selector-index">
+    {% block kidata_selector_index_header %}
+    <template #smart-bar-header>
+        <h2>{{ $tc('kidata-selector.page.title') }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_index_actions %}
+    <template #smart-bar-actions>
+        <sw-button
+            variant="ghost"
+            @click="goToSavedQueries">
+            Gespeicherte Queries
+        </sw-button>
+
+        <sw-button
+            variant="primary"
+            :disabled="isLoading"
+            @click="generateSQL">
+            {{ $tc('kidata-selector.page.generateButton') }}
+        </sw-button>
+
+        <sw-button
+            variant="ghost"
+            :disabled="!hasSQL"
+            @click="saveQuery">
+            Query speichern
+        </sw-button>
+
+        <sw-button
+            variant="ghost"
+            :disabled="!canExport"
+            @click="exportCSV">
+            {{ $tc('kidata-selector.page.exportButton') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_index_content %}
+    <template #content>
+        <sw-card-view>
+            {% block kidata_selector_index_prompt_card %}
+            <sw-card :title="$tc('kidata-selector.page.promptLabel')" :isLoading="isLoading">
+                <sw-textarea-field
+                    v-model="prompt"
+                    :placeholder="$tc('kidata-selector.page.promptPlaceholder')"
+                    :disabled="isLoading"
+                    rows="4">
+                </sw-textarea-field>
+            </sw-card>
+            {% endblock %}
+
+            {% block kidata_selector_index_sql_card %}
+            <sw-card
+                v-if="hasSQL"
+                :title="$tc('kidata-selector.page.sqlLabel')"
+                :isLoading="isLoading">
+                <sw-alert v-if="hasError" variant="danger" class="kidata-error">
+                    <strong>❌ Fehler bei der Ausführung:</strong>
+                    <p>{{ lastError }}</p>
+                    <sw-button
+                        size="small"
+                        variant="primary"
+                        @click="fixQueryWithError">
+                        🔧 Query mit KI korrigieren
+                    </sw-button>
+                </sw-alert>
+
+                <sw-alert variant="warning" class="kidata-warning">
+                    <strong>⚠️ Warnung:</strong> Bitte überprüfen Sie die generierte SQL-Abfrage sorgfältig bevor Sie diese ausführen.
+                    Sie sind selbst verantwortlich für die Ausführung dieser Query. Falsche Queries können zu Performance-Problemen führen.
+                </sw-alert>
+
+                <div class="kidata-sql-container">
+                    <sw-textarea-field
+                        v-model="sql"
+                        :disabled="true"
+                        rows="8"
+                        class="kidata-sql-field">
+                    </sw-textarea-field>
+                    <div class="kidata-sql-actions">
+                        <sw-button
+                            size="small"
+                            @click="copySQLToClipboard">
+                            Copy SQL
+                        </sw-button>
+                        <sw-button
+                            variant="primary"
+                            size="small"
+                            :disabled="!canExecute"
+                            @click="confirmAndExecute">
+                            Query ausführen
+                        </sw-button>
+                    </div>
+                </div>
+            </sw-card>
+            {% endblock %}
+
+            {% block kidata_selector_index_results_card %}
+            <sw-card
+                v-if="executed"
+                :title="$tc('kidata-selector.page.resultsLabel')"
+                :isLoading="isLoading">
+                <template v-if="hasResults">
+                    <div class="kidata-results-info">
+                        <span>{{ $tc('kidata-selector.page.totalLabel') }}: {{ total }}</span>
+                        <span>{{ $tc('kidata-selector.page.pageLabel') }}: {{ page }} / {{ totalPages }}</span>
+                    </div>
+
+                    <sw-data-grid
+                        :dataSource="rows"
+                        :columns="columns.map(col => ({ property: col, label: col }))"
+                        :showSelection="false"
+                        :showActions="false"
+                        :isLoading="isLoading">
+                    </sw-data-grid>
+
+                    <sw-pagination
+                        v-if="totalPages > 1"
+                        :page="page"
+                        :limit="limit"
+                        :total="total"
+                        :total-visible="7"
+                        @page-change="changePage">
+                    </sw-pagination>
+                </template>
+
+                <template v-else>
+                    <sw-empty-state
+                        :title="$tc('kidata-selector.page.noResults')">
+                    </sw-empty-state>
+                </template>
+            </sw-card>
+            {% endblock %}
+        </sw-card-view>
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

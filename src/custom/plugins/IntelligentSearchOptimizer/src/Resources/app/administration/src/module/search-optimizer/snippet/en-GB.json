@@ -1,0 +1,84 @@
+{
+    "search-optimizer": {
+        "general": {
+            "mainMenuItemGeneral": "Search Analysis",
+            "mainMenuItemDashboard": "Dashboard",
+            "mainMenuItemZeroResults": "Zero Results",
+            "mainMenuItemSynonyms": "Synonyms",
+            "mainMenuItemRedirects": "Redirects",
+            "descriptionTextModule": "Intelligent search analysis and optimization"
+        },
+        "dashboard": {
+            "title": "Search Analysis Dashboard",
+            "filters": "Filters",
+            "dateFrom": "From Date",
+            "dateTo": "To Date",
+            "salesChannel": "Sales Channel",
+            "language": "Language",
+            "summary": {
+                "title": "Summary",
+                "totalSearches": "Total Searches",
+                "uniqueTerms": "Unique Search Terms",
+                "zeroResults": "Zero Results",
+                "conversionRate": "Conversion Rate"
+            },
+            "topSearches": {
+                "title": "Top Search Terms",
+                "term": "Search Term",
+                "count": "Count",
+                "results": "Results",
+                "conversion": "Conversion"
+            },
+            "trends": {
+                "title": "Search Trends"
+            },
+            "export": "Export"
+        },
+        "zeroResults": {
+            "title": "Zero Result Searches",
+            "term": "Search Term",
+            "count": "Count",
+            "lastSearched": "Last Searched",
+            "action": "Action",
+            "createSynonym": "Create Synonym",
+            "createRedirect": "Create Redirect"
+        },
+        "synonyms": {
+            "title": "Synonym Management",
+            "keyword": "Keyword",
+            "synonym": "Synonym",
+            "language": "Language",
+            "salesChannel": "Sales Channel",
+            "active": "Active",
+            "create": "Create Synonym",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "redirects": {
+            "title": "Redirect Management",
+            "searchTerm": "Search Term",
+            "targetUrl": "Target URL",
+            "targetType": "Target Type",
+            "priority": "Priority",
+            "active": "Active",
+            "create": "Create Redirect",
+            "edit": "Edit",
+            "delete": "Delete",
+            "types": {
+                "url": "URL",
+                "category": "Category",
+                "product": "Product",
+                "landingPage": "Landing Page"
+            }
+        },
+        "normalization": {
+            "testLabel": "Test search term",
+            "testPlaceholder": "e.g. Test-Product",
+            "info": "These variations will be considered during search:",
+            "original": "Original",
+            "withSpaces": "With spaces",
+            "withHyphens": "With hyphens",
+            "normalized": "Normalized"
+        }
+    }
+}
