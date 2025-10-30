@@ -1,5 +1,6 @@
 import template from './kidata-selector-list.html.twig';
 import './kidata-selector-list.scss';
+import VersionHelper from '../../../../core/version-helper';
 
 const { Component, Mixin } = Shopware;
 
@@ -35,12 +36,8 @@ Component.register('kidata-selector-list', {
             this.isLoading = true;
 
             try {
-                const response = await fetch('/api/_action/kidata/saved', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    }
+                const response = await VersionHelper.apiFetch('/api/_action/kidata/saved', {
+                    method: 'GET'
                 });
 
                 const data = await response.json();
@@ -72,12 +69,8 @@ Component.register('kidata-selector-list', {
             }
 
             try {
-                const response = await fetch(`/api/_action/kidata/saved/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    }
+                const response = await VersionHelper.apiFetch(`/api/_action/kidata/saved/${id}`, {
+                    method: 'DELETE'
                 });
 
                 const data = await response.json();

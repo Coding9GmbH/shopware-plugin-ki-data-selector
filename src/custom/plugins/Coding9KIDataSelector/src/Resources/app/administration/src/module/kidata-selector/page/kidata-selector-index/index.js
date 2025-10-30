@@ -1,5 +1,6 @@
 import template from './kidata-selector-index.html.twig';
 import './kidata-selector-index.scss';
+import VersionHelper from '../../../../core/version-helper';
 
 const { Component, Mixin } = Shopware;
 const { Criteria } = Shopware.Data;
@@ -250,12 +251,8 @@ Component.register('kidata-selector-index', {
             this.isLoading = true;
 
             try {
-                const response = await fetch('/api/_action/kidata/export', {
+                const response = await VersionHelper.apiFetch('/api/_action/kidata/export', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    },
                     body: JSON.stringify({
                         sql: this.sql, // Send generated SQL instead of prompt
                         delimiter: ';',
@@ -268,14 +265,7 @@ Component.register('kidata-selector-index', {
                 }
 
                 const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `kidata-export-${Date.now()}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+                VersionHelper.downloadBlob(blob, `kidata-export-${Date.now()}.csv`);
 
                 this.createNotificationSuccess({
                     title: this.$tc('kidata-selector.page.successTitle'),
@@ -292,27 +282,24 @@ Component.register('kidata-selector-index', {
         },
 
         async callApi(payload) {
-            const response = await fetch('/api/_action/kidata/query', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            return await response.json();
+            return await VersionHelper.apiPost('/api/_action/kidata/query', payload);
         },
 
-        copySQLToClipboard() {
+        async copySQLToClipboard() {
             if (!this.sql) return;
 
-            navigator.clipboard.writeText(this.sql).then(() => {
+            try {
+                await VersionHelper.copyToClipboard(this.sql);
                 this.createNotificationSuccess({
                     title: this.$tc('kidata-selector.page.successTitle'),
                     message: 'SQL copied to clipboard'
                 });
-            });
+            } catch (error) {
+                this.createNotificationError({
+                    title: this.$tc('kidata-selector.page.errorTitle'),
+                    message: 'Failed to copy to clipboard'
+                });
+            }
         },
 
         async saveQuery() {
@@ -334,21 +321,12 @@ Component.register('kidata-selector-index', {
             this.isLoading = true;
 
             try {
-                const response = await fetch('/api/_action/kidata/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        description: description || '',
-                        sql: this.sql,
-                        prompt: this.prompt
-                    })
+                const data = await VersionHelper.apiPost('/api/_action/kidata/save', {
+                    name: name,
+                    description: description || '',
+                    sql: this.sql,
+                    prompt: this.prompt
                 });
-
-                const data = await response.json();
 
                 if (data.success) {
                     this.createNotificationSuccess({

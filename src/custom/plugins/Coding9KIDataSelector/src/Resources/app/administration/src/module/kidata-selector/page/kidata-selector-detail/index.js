@@ -1,5 +1,6 @@
 import template from './kidata-selector-detail.html.twig';
 import './kidata-selector-detail.scss';
+import VersionHelper from '../../../../core/version-helper';
 
 const { Component, Mixin } = Shopware;
 
@@ -54,12 +55,8 @@ Component.register('kidata-selector-detail', {
             this.isLoading = true;
 
             try {
-                const response = await fetch(`/api/_action/kidata/saved/${this.queryId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    }
+                const response = await VersionHelper.apiFetch(`/api/_action/kidata/saved/${this.queryId}`, {
+                    method: 'GET'
                 });
 
                 const data = await response.json();
@@ -157,12 +154,8 @@ Component.register('kidata-selector-detail', {
             this.isLoading = true;
 
             try {
-                const response = await fetch('/api/_action/kidata/export', {
+                const response = await VersionHelper.apiFetch('/api/_action/kidata/export', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                    },
                     body: JSON.stringify({
                         sql: this.sql,
                         delimiter: ';',
@@ -175,14 +168,8 @@ Component.register('kidata-selector-detail', {
                 }
 
                 const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${this.queryName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+                const filename = `${this.queryName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.csv`;
+                VersionHelper.downloadBlob(blob, filename);
 
                 this.createNotificationSuccess({
                     title: 'Erfolg',
@@ -199,27 +186,24 @@ Component.register('kidata-selector-detail', {
         },
 
         async callApi(payload) {
-            const response = await fetch('/api/_action/kidata/query', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Shopware.Context.api.authToken.access}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            return await response.json();
+            return await VersionHelper.apiPost('/api/_action/kidata/query', payload);
         },
 
-        copySQLToClipboard() {
+        async copySQLToClipboard() {
             if (!this.sql) return;
 
-            navigator.clipboard.writeText(this.sql).then(() => {
+            try {
+                await VersionHelper.copyToClipboard(this.sql);
                 this.createNotificationSuccess({
                     title: 'Erfolg',
                     message: 'SQL copied to clipboard'
                 });
-            });
+            } catch (error) {
+                this.createNotificationError({
+                    title: 'Fehler',
+                    message: 'Failed to copy to clipboard'
+                });
+            }
         },
 
         goBackToList() {
