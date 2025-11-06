@@ -21,10 +21,12 @@ eval "$curenv"
 set +o allexport
 
 export APP_URL
-export ESLINT_DISABLE
 export PROXY_URL
 export STOREFRONT_ASSETS_PORT
 export STOREFRONT_PROXY_PORT
+export STOREFRONT_HTTPS_KEY_FILE
+export STOREFRONT_HTTPS_CERTIFICATE_FILE
+export STOREFRONT_SKIP_SSL_CERT
 
 if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
     STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
@@ -39,7 +41,11 @@ fi
 "${CWD}"/console bundle:dump
 "${CWD}"/console feature:dump
 "${CWD}"/console theme:compile --active-only
-"${CWD}"/console theme:dump
+if [[ -n "$1" ]]; then
+    "${CWD}"/console theme:dump --theme-name="$1"
+else
+    "${CWD}"/console theme:dump
+fi
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
@@ -61,7 +67,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            npm install --prefix "$path"
+            (cd "$path" && npm install)
         fi
     done
     cd "$OLDPWD" || exit

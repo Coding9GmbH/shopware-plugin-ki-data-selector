@@ -9,6 +9,7 @@ return [
     Shopware\Core\Maintenance\Maintenance::class => ['all' => true],
     Shopware\Core\DevOps\DevOps::class => ['e2e' => true],
     Shopware\Core\Profiling\Profiling::class => ['all' => true],
+    Shopware\Core\Service\Service::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true],

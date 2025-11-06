@@ -3,7 +3,7 @@ version: '3'
 services:
   shop:
     container_name: shop
-    image: dockware/dev:6.6.9.0
+    image: dockware/dev:latest
     ports:
       - "22:22"     # ssh
       - "80:80"     # apache2

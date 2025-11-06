@@ -1,4 +1,13 @@
 {
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "87424683adc81d7dc305eefec1fced883084aab9"
+        }
+    },
     "nyholm/psr7": {
         "version": "1.8",
         "recipe": {
@@ -12,7 +21,7 @@
         ]
     },
     "pentatrion/vite-bundle": {
-        "version": "7.1",
+        "version": "8.2",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -21,12 +30,12 @@
         }
     },
     "shopware/administration": {
-        "version": "6.6",
+        "version": "6.7",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
-            "version": "6.6",
-            "ref": "33e796478eb06c75b42f5e4ac110ce3bb9415ef7"
+            "version": "6.7",
+            "ref": "e37b40beddc01310e2107d8d4190ec7ebd7641b5"
         },
         "files": [
             "bin/build-administration.sh",
@@ -34,12 +43,12 @@
         ]
     },
     "shopware/core": {
-        "version": "6.6",
+        "version": "6.7",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
-            "version": "6.6",
-            "ref": "7192025d93bcd6d0b9405713c1f291845ce3b297"
+            "version": "6.7",
+            "ref": "5109e5196b5da6d1de268d947e6010fac2f55dab"
         },
         "files": [
             "bin/.htaccess",
@@ -61,22 +70,22 @@
         ]
     },
     "shopware/elasticsearch": {
-        "version": "6.6",
+        "version": "6.7",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
-            "version": "6.6",
-            "ref": "a1232aee197f337e95f347c204680dd788c54fcc"
+            "version": "6.7",
+            "ref": "fe34e39dbf21eec276589a9c8857084ea33918f9"
         },
         "files": []
     },
     "shopware/storefront": {
-        "version": "6.6",
+        "version": "6.7",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
-            "version": "6.6",
-            "ref": "dd20533e926c3367087033bfa712f6f70cb79b19"
+            "version": "6.7",
+            "ref": "3cc053f53643096e38bd6301e50b81b29dd31127"
         },
         "files": [
             "bin/build-storefront.sh",
@@ -84,7 +93,7 @@
         ]
     },
     "symfony/console": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -93,7 +102,7 @@
         }
     },
     "symfony/debug-bundle": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -102,19 +111,20 @@
         }
     },
     "symfony/flex": {
-        "version": "2.4",
+        "version": "2.8",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "1.0",
-            "ref": "146251ae39e06a95be0fe3d13c807bcf3938b172"
+            "version": "2.4",
+            "ref": "52e9754527a15e2b79d9a610f98185a1fe46622a"
         },
         "files": [
-            ".env"
+            ".env",
+            ".env.dev"
         ]
     },
     "symfony/framework-bundle": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -127,7 +137,7 @@
         ]
     },
     "symfony/lock": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -139,7 +149,7 @@
         ]
     },
     "symfony/mailer": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -148,7 +158,7 @@
         }
     },
     "symfony/messenger": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -167,8 +177,20 @@
         },
         "files": []
     },
+    "symfony/property-info": {
+        "version": "7.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.3",
+            "ref": "dae70df71978ae9226ae915ffd5fad817f5ca1f7"
+        },
+        "files": [
+            "config/packages/property_info.yaml"
+        ]
+    },
     "symfony/routing": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -179,8 +201,18 @@
             "config/routes.yaml"
         ]
     },
+    "symfony/scheduler": {
+        "version": "7.3",
+        "recipe": {
+            "repo": "github.com/shopware/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "88069c76a8133d37a373b1299fb3ab927f252c45"
+        },
+        "files": []
+    },
     "symfony/translation": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -189,7 +221,7 @@
         }
     },
     "symfony/twig-bundle": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",
@@ -198,7 +230,7 @@
         }
     },
     "symfony/validator": {
-        "version": "7.1",
+        "version": "7.3",
         "recipe": {
             "repo": "github.com/shopware/recipes",
             "branch": "main",

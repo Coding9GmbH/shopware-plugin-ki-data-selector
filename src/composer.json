@@ -4,7 +4,7 @@
   "require": {
     "composer-runtime-api": "^2.0",
     "shopware/administration": "*",
-    "shopware/core": "v6.6.9.0",
+    "shopware/core": "v6.7.2.2",
     "shopware/elasticsearch": "*",
     "shopware/storefront": "*",
     "symfony/flex": "~2"
