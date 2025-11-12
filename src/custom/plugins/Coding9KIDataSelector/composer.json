@@ -1,0 +1,52 @@
+{
+    "name": "coding9/ki-data-selector",
+    "description": "AI Query Layer for Shopware 6 - Natural Language to SQL with Read-Only Validation",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Coding9",
+            "email": "support@coding9.de"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "shopware/core": "*",
+        "shopware/administration": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5 || ^10.0"
+    },
+    "suggest": {
+        "shopware/administration": "Required for the admin interface and query management"
+    },
+    "autoload": {
+        "psr-4": {
+            "Coding9\\KIDataSelector\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "Coding9\\KIDataSelector\\Coding9KIDataSelector",
+        "copyright": "(c) by Coding9",
+        "label": {
+            "de-DE": "KI Data Selector",
+            "en-GB": "KI Data Selector"
+        },
+        "description": {
+            "de-DE": "AI-gestützter SQL-Query-Generator mit natürlicher Sprache, Read-Only Validierung und CSV-Export",
+            "en-GB": "AI-powered SQL query generator with natural language, read-only validation and CSV export"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://coding9.de",
+            "en-GB": "https://coding9.de"
+        },
+        "supportLink": {
+            "de-DE": "https://coding9.de/support",
+            "en-GB": "https://coding9.de/support"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

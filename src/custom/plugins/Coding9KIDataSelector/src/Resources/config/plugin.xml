@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/CustomEntity/Xml/entity-1.0.xsd">
+    <label>KI Data Selector</label>
+    <label lang="de-DE">KI Data Selector</label>
+    <label lang="en-GB">KI Data Selector</label>
+
+    <description>AI-powered SQL query generator with natural language, read-only validation and CSV export</description>
+    <description lang="de-DE">AI-gestützter SQL-Query-Generator mit natürlicher Sprache, Read-Only Validierung und CSV-Export</description>
+    <description lang="en-GB">AI-powered SQL query generator with natural language, read-only validation and CSV export</description>
+
+    <author>Coding9</author>
+    <copyright>(c) 2024 Coding9</copyright>
+    <license>MIT</license>
+    <version>1.0.0</version>
+</plugin>

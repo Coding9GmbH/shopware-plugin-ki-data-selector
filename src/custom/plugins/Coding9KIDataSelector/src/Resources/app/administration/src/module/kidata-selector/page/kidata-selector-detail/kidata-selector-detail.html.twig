@@ -1,0 +1,103 @@
+{% block kidata_selector_detail %}
+<sw-page class="kidata-selector-detail">
+    {% block kidata_selector_detail_header %}
+    <template #smart-bar-header>
+        <h2>{{ queryName }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_detail_actions %}
+    <template #smart-bar-actions>
+        <sw-button
+            variant="ghost"
+            @click="goBackToList">
+            Zurück zur Liste
+        </sw-button>
+
+        <sw-button
+            variant="ghost"
+            :disabled="!canExport"
+            @click="exportCSV">
+            CSV Export
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block kidata_selector_detail_content %}
+    <template #content>
+        <sw-card-view>
+            {% block kidata_selector_detail_info_card %}
+            <sw-card title="Query Information" :isLoading="isLoading">
+                <p><strong>Name:</strong> {{ queryName }}</p>
+                <p v-if="queryDescription"><strong>Beschreibung:</strong> {{ queryDescription }}</p>
+                <p v-if="originalPrompt"><strong>Original Prompt:</strong> {{ originalPrompt }}</p>
+            </sw-card>
+            {% endblock %}
+
+            {% block kidata_selector_detail_sql_card %}
+            <sw-card title="SQL Query" :isLoading="isLoading">
+                <div class="kidata-sql-container">
+                    <sw-textarea-field
+                        v-model="sql"
+                        :disabled="true"
+                        rows="8"
+                        class="kidata-sql-field">
+                    </sw-textarea-field>
+                    <div class="kidata-sql-actions">
+                        <sw-button
+                            size="small"
+                            @click="copySQLToClipboard">
+                            Copy SQL
+                        </sw-button>
+                        <sw-button
+                            variant="primary"
+                            size="small"
+                            :disabled="!canExecute"
+                            @click="confirmAndExecute">
+                            Query ausführen
+                        </sw-button>
+                    </div>
+                </div>
+            </sw-card>
+            {% endblock %}
+
+            {% block kidata_selector_detail_results_card %}
+            <sw-card
+                v-if="executed"
+                title="Ergebnisse"
+                :isLoading="isLoading">
+                <template v-if="hasResults">
+                    <div class="kidata-results-info">
+                        <span>Total: {{ total }}</span>
+                        <span>Page: {{ page }} / {{ totalPages }}</span>
+                    </div>
+
+                    <sw-data-grid
+                        :dataSource="rows"
+                        :columns="columns.map(col => ({ property: col, label: col }))"
+                        :showSelection="false"
+                        :showActions="false"
+                        :isLoading="isLoading">
+                    </sw-data-grid>
+
+                    <sw-pagination
+                        v-if="totalPages > 1"
+                        :page="page"
+                        :limit="limit"
+                        :total="total"
+                        :total-visible="7"
+                        @page-change="changePage">
+                    </sw-pagination>
+                </template>
+
+                <template v-else>
+                    <sw-empty-state title="Keine Ergebnisse">
+                    </sw-empty-state>
+                </template>
+            </sw-card>
+            {% endblock %}
+        </sw-card-view>
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

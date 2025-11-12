@@ -1,0 +1,59 @@
+.kidata-selector-index {
+    .kidata-error {
+        margin-bottom: 20px;
+
+        p {
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    }
+
+    .kidata-warning {
+        margin-bottom: 20px;
+    }
+
+    .kidata-sql-container {
+        position: relative;
+
+        .kidata-sql-field {
+            font-family: monospace;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .kidata-sql-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+    }
+
+    .kidata-results-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+
+        span {
+            font-weight: 600;
+        }
+    }
+
+    .sw-data-grid {
+        margin-bottom: 20px;
+    }
+
+    .sw-pagination {
+        margin-top: 20px;
+    }
+
+    .sw-empty-state {
+        min-height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
