@@ -74,9 +74,10 @@ class SchemaProvider
                 ];
             }
 
-            // Primary Key
-            if ($table->hasPrimaryKey()) {
-                $tableInfo['primaryKey'] = $table->getPrimaryKey()->getColumns();
+            // Primary Key - compatible with DBAL 2.x and 3.x
+            $primaryKey = $table->getPrimaryKey();
+            if ($primaryKey !== null) {
+                $tableInfo['primaryKey'] = $primaryKey->getColumns();
             }
 
             // Foreign Keys
