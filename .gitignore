@@ -1,0 +1,37 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+# versions/ directory is tracked in git for release artifacts
+
+# Shopware - exclude all src except our plugin
+src/*
+!src/custom/
+src/custom/*
+!src/custom/plugins/
+src/custom/plugins/*
+!src/custom/plugins/Coding9KiDataSelector/
+
+# Docker
+docker-compose.override.yml
+
+# Dependencies
+vendor/
+node_modules/
+
+# Environment & Secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Logs
+*.log
