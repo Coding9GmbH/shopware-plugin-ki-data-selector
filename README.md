@@ -3,7 +3,7 @@
 [![Shopware 6](https://img.shields.io/badge/Shopware-6.5%2B-blue)](https://www.shopware.com)
 [![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4)](https://www.php.net)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Latest Release](https://img.shields.io/badge/release-v1.0.0-blue)](versions/Coding9KiDataSelector-1.0.0.zip)
+[![Latest Release](https://img.shields.io/badge/release-v1.0.1-blue)](versions/Coding9KiDataSelector-1.0.1.zip)
 
 Transform natural language into SQL queries with AI - a Shopware 6 plugin for intelligent data analysis.
 
@@ -11,11 +11,11 @@ Transform natural language into SQL queries with AI - a Shopware 6 plugin for in
 
 ```bash
 # Download the latest version
-wget https://github.com/coding9/shopware-ki-data-selector/raw/main/versions/Coding9KiDataSelector-1.0.0.zip
+wget https://github.com/coding9/shopware-ki-data-selector/raw/main/versions/Coding9KiDataSelector-1.0.1.zip
 
 # Install in Shopware
 cd /path/to/shopware
-unzip Coding9KiDataSelector-1.0.0.zip -d custom/plugins/
+unzip Coding9KiDataSelector-1.0.1.zip -d custom/plugins/
 php bin/console plugin:refresh
 php bin/console plugin:install --activate Coding9KiDataSelector
 php bin/console cache:clear
@@ -57,7 +57,7 @@ By using this plugin, you acknowledge that Coding9 and the plugin authors are no
 
 ### Method 1: Download Release (Recommended)
 
-1. Download the latest release: [Coding9KiDataSelector-1.0.0.zip](versions/Coding9KiDataSelector-1.0.0.zip)
+1. Download the latest release: [Coding9KiDataSelector-1.0.1.zip](versions/Coding9KiDataSelector-1.0.1.zip)
 2. Extract to `custom/plugins/Coding9KiDataSelector`
 3. Run installation commands:
 
@@ -211,4 +211,4 @@ Developed with ❤️ by [Coding9](https://coding9.de)
 
 ---
 
-**Current Version:** [1.0.0](versions/Coding9KiDataSelector-1.0.0.zip) | **Released:** 2025-10-29
+**Current Version:** [1.0.1](versions/Coding9KiDataSelector-1.0.1.zip) | **Released:** 2025-11-12
