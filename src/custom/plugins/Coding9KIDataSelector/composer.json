@@ -3,7 +3,7 @@
     "description": "AI Query Layer for Shopware 6 - Natural Language to SQL with Read-Only Validation",
     "type": "shopware-platform-plugin",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Coding9",
