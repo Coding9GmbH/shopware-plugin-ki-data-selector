@@ -53,9 +53,15 @@ class SchemaProvider
             // Columns
             foreach ($table->getColumns() as $column) {
                 $type = $column->getType();
-                $typeName = method_exists($type, 'getName')
-                    ? $type->getName()
-                    : (string) $type;
+
+                // Get type name - compatible with Doctrine DBAL 2.x and 3.x
+                if (method_exists($type, 'getName')) {
+                    $typeName = $type->getName();
+                } else {
+                    // Fallback for DBAL 3.x: extract type from class name
+                    $className = get_class($type);
+                    $typeName = strtolower(str_replace(['Doctrine\\DBAL\\Types\\', 'Type'], '', $className));
+                }
 
                 $tableInfo['columns'][] = [
                     'name' => $column->getName(),
@@ -215,9 +221,15 @@ class SchemaProvider
         $result = [];
         foreach ($columns as $column) {
             $type = $column->getType();
-            $typeName = method_exists($type, 'getName')
-                ? $type->getName()
-                : (string) $type;
+
+            // Get type name - compatible with Doctrine DBAL 2.x and 3.x
+            if (method_exists($type, 'getName')) {
+                $typeName = $type->getName();
+            } else {
+                // Fallback for DBAL 3.x: extract type from class name
+                $className = get_class($type);
+                $typeName = strtolower(str_replace(['Doctrine\\DBAL\\Types\\', 'Type'], '', $className));
+            }
 
             $result[] = [
                 'name' => $column->getName(),
