@@ -33,6 +33,36 @@ php bin/console system:config:set Coding9KiDataSelector.config.apiKey "your-api-
 - **🎯 Schema-Aware** - AI knows your complete database structure
 - **⚡ Fast & Efficient** - Optimized queries with pagination support
 
+## 📸 Screenshots
+
+### Main Interface
+![Main Interface](screenshots/screen-01.png)
+*Natural language query input interface*
+
+### Query Generation
+![Query Generation](screenshots/screen-02%20(1).png)
+*AI-generated SQL query with syntax highlighting*
+
+### Execution Results
+![Execution Results](screenshots/screen-03%20(1).png)
+*Query results with pagination*
+
+### Data Export
+![Data Export](screenshots/screen-04%20(1).png)
+*CSV export functionality*
+
+### Configuration
+![Configuration](screenshots/screen-05%20(1).png)
+*Plugin configuration in Shopware Admin*
+
+### Schema Information
+![Schema Information](screenshots/screen-06%20(1).png)
+*Database schema overview*
+
+### Advanced Queries
+![Advanced Queries](screenshots/screen-07%20(2).png)
+*Complex query examples and results*
+
 ## ⚠️ Important Notice
 
 **This plugin generates and executes SQL queries based on AI-generated code. Please read carefully:**
