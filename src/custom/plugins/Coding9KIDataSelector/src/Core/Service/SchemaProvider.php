@@ -52,9 +52,14 @@ class SchemaProvider
 
             // Columns
             foreach ($table->getColumns() as $column) {
+                $type = $column->getType();
+                $typeName = method_exists($type, 'getName')
+                    ? $type->getName()
+                    : (string) $type;
+
                 $tableInfo['columns'][] = [
                     'name' => $column->getName(),
-                    'type' => $column->getType()->getName(),
+                    'type' => $typeName,
                     'length' => $column->getLength(),
                     'nullable' => !$column->getNotnull(),
                     'default' => $column->getDefault(),
@@ -209,9 +214,14 @@ class SchemaProvider
 
         $result = [];
         foreach ($columns as $column) {
+            $type = $column->getType();
+            $typeName = method_exists($type, 'getName')
+                ? $type->getName()
+                : (string) $type;
+
             $result[] = [
                 'name' => $column->getName(),
-                'type' => $column->getType()->getName(),
+                'type' => $typeName,
                 'nullable' => !$column->getNotnull()
             ];
         }
